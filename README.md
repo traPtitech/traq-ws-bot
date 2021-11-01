@@ -2,8 +2,8 @@
 
 traQのWebSocket BOTを作るためのライブラリです。
 
-WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助します。
-APIへの接続は補助しないため、[sapphi-red/go-traq](https://github.com/sapphi-red/go-traq) などと合わせて使用してください。
+WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助します。 APIへの接続は補助しないため、[sapphi-red/go-traq](https://github.com/sapphi-red/go-traq)
+などと合わせて使用してください。
 
 ## Sample
 
@@ -20,8 +20,9 @@ import (
 func main() {
 	// Create a bot instance
 	b, err := traqBot.NewBot(&traqBot.Options{
-		AccessToken: "access-token", // required
-		Origin:      "wss://q.trap.jp",
+		AccessToken:   "access-token", // required
+		Origin:        "wss://q.trap.jp",
+		AutoReconnect: true,
 	})
 	if err != nil {
 		panic(err)
@@ -37,7 +38,7 @@ func main() {
 	b.OnEvent("ANY_EVENT", func(p interface{}) {
 		log.Println("You can receive any events in case it is not implemented")
 	})
-	
+
 	go func() {
 		// Join Qall session
 		b.SendRTCState("channel-id", [2]string{"qall.micmuted", "session-id"})

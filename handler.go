@@ -24,7 +24,7 @@ func (b *Bot) OnError(h func(message string)) {
 	b.OnEvent(event.Error, func(i interface{}) {
 		message, ok := i.(string)
 		if !ok {
-			log.Println("traq-ws-bot: unexpected payload on ERROR")
+			log.Println("[traq-ws-bot] Unexpected payload on ERROR")
 			return
 		}
 		h(message)
@@ -37,7 +37,7 @@ func (b *Bot) OnPing(h func(p *payload.Ping)) {
 		b, _ := json.Marshal(i)
 		var p payload.Ping
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on PING")
+			log.Println("[traq-ws-bot] Unexpected payload on PING")
 			return
 		}
 		h(&p)
@@ -50,7 +50,7 @@ func (b *Bot) OnJoined(h func(p *payload.Joined)) {
 		b, _ := json.Marshal(i)
 		var p payload.Joined
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on JOINED")
+			log.Println("[traq-ws-bot] Unexpected payload on JOINED")
 			return
 		}
 		h(&p)
@@ -63,7 +63,7 @@ func (b *Bot) OnLeft(h func(p *payload.Left)) {
 		b, _ := json.Marshal(i)
 		var p payload.Left
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on LEFT")
+			log.Println("[traq-ws-bot] Unexpected payload on LEFT")
 			return
 		}
 		h(&p)
@@ -76,7 +76,7 @@ func (b *Bot) OnMessageCreated(h func(p *payload.MessageCreated)) {
 		b, _ := json.Marshal(i)
 		var p payload.MessageCreated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on MESSAGE_CREATED")
+			log.Println("[traq-ws-bot] Unexpected payload on MESSAGE_CREATED")
 			return
 		}
 		h(&p)
@@ -89,7 +89,7 @@ func (b *Bot) OnMessageUpdated(h func(p *payload.MessageUpdated)) {
 		b, _ := json.Marshal(i)
 		var p payload.MessageUpdated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on MESSAGE_UPDATED")
+			log.Println("[traq-ws-bot] Unexpected payload on MESSAGE_UPDATED")
 			return
 		}
 		h(&p)
@@ -102,7 +102,7 @@ func (b *Bot) OnMessageDeleted(h func(p *payload.MessageDeleted)) {
 		b, _ := json.Marshal(i)
 		var p payload.MessageDeleted
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on MESSAGE_DELETED")
+			log.Println("[traq-ws-bot] Unexpected payload on MESSAGE_DELETED")
 			return
 		}
 		h(&p)
@@ -115,7 +115,7 @@ func (b *Bot) OnBotMessageStampsUpdated(h func(p *payload.BotMessageStampsUpdate
 		b, _ := json.Marshal(i)
 		var p payload.BotMessageStampsUpdated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on BOT_MESSAGE_STAMPS_UPDATED")
+			log.Println("[traq-ws-bot] Unexpected payload on BOT_MESSAGE_STAMPS_UPDATED")
 			return
 		}
 		h(&p)
@@ -128,7 +128,7 @@ func (b *Bot) OnDirectMessageCreated(h func(p *payload.DirectMessageCreated)) {
 		b, _ := json.Marshal(i)
 		var p payload.DirectMessageCreated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on DIRECT_MESSAGE_CREATED")
+			log.Println("[traq-ws-bot] Unexpected payload on DIRECT_MESSAGE_CREATED")
 			return
 		}
 		h(&p)
@@ -141,7 +141,7 @@ func (b *Bot) OnDirectMessageUpdated(h func(p *payload.DirectMessageUpdated)) {
 		b, _ := json.Marshal(i)
 		var p payload.DirectMessageUpdated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on DIRECT_MESSAGE_UPDATED")
+			log.Println("[traq-ws-bot] Unexpected payload on DIRECT_MESSAGE_UPDATED")
 			return
 		}
 		h(&p)
@@ -154,7 +154,7 @@ func (b *Bot) OnDirectMessageDeleted(h func(p *payload.DirectMessageDeleted)) {
 		b, _ := json.Marshal(i)
 		var p payload.DirectMessageDeleted
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on DIRECT_MESSAGE_DELETED")
+			log.Println("[traq-ws-bot] Unexpected payload on DIRECT_MESSAGE_DELETED")
 			return
 		}
 		h(&p)
@@ -167,7 +167,7 @@ func (b *Bot) OnChannelCreated(h func(p *payload.ChannelCreated)) {
 		b, _ := json.Marshal(i)
 		var p payload.ChannelCreated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on CHANNEL_CREATED")
+			log.Println("[traq-ws-bot] Unexpected payload on CHANNEL_CREATED")
 			return
 		}
 		h(&p)
@@ -180,7 +180,7 @@ func (b *Bot) OnChannelTopicChanged(h func(p *payload.ChannelTopicChanged)) {
 		b, _ := json.Marshal(i)
 		var p payload.ChannelTopicChanged
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on CHANNEL_TOPIC_CHANGED")
+			log.Println("[traq-ws-bot] Unexpected payload on CHANNEL_TOPIC_CHANGED")
 			return
 		}
 		h(&p)
@@ -193,7 +193,7 @@ func (b *Bot) OnUserCreated(h func(p *payload.UserCreated)) {
 		b, _ := json.Marshal(i)
 		var p payload.UserCreated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on USER_CREATED")
+			log.Println("[traq-ws-bot] Unexpected payload on USER_CREATED")
 			return
 		}
 		h(&p)
@@ -206,7 +206,7 @@ func (b *Bot) OnStampCreated(h func(p *payload.StampCreated)) {
 		b, _ := json.Marshal(i)
 		var p payload.StampCreated
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on STAMP_CREATED")
+			log.Println("[traq-ws-bot] Unexpected payload on STAMP_CREATED")
 			return
 		}
 		h(&p)
@@ -219,7 +219,7 @@ func (b *Bot) OnTagAdded(h func(p *payload.TagAdded)) {
 		b, _ := json.Marshal(i)
 		var p payload.TagAdded
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on TAG_ADDED")
+			log.Println("[traq-ws-bot] Unexpected payload on TAG_ADDED")
 			return
 		}
 		h(&p)
@@ -232,7 +232,7 @@ func (b *Bot) OnTagRemoved(h func(p *payload.TagRemoved)) {
 		b, _ := json.Marshal(i)
 		var p payload.TagRemoved
 		if err := json.Unmarshal(b, &p); err != nil {
-			log.Println("traq-ws-bot: unexpected payload on TAG_REMOVED")
+			log.Println("[traq-ws-bot] Unexpected payload on TAG_REMOVED")
 			return
 		}
 		h(&p)
