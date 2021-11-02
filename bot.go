@@ -121,7 +121,7 @@ func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
 	}
 	b.sendMessage(&rawMessage{
 		t:    websocket.TextMessage,
-		data: []byte(strings.Join(elems, ":")),
+		data: []byte(strings.Join(elems, ":") + ":"),
 	})
 }
 
