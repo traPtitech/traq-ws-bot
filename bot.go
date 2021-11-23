@@ -151,7 +151,7 @@ func (b *Bot) readLoop(done chan<- struct{}) {
 				log.Println("[traq-ws-bot] Unexpected json format, closing connection")
 				return
 			}
-			go b.handle(m.Type, m.Body)
+			b.handleMultiCast(m.Type, m.Body)
 		case websocket.CloseMessage:
 			return
 		}

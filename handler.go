@@ -8,9 +8,9 @@ import (
 	"github.com/traPtitech/traq-ws-bot/payload"
 )
 
-func (b *Bot) handle(event string, p interface{}) {
+func (b *Bot) handleMultiCast(event string, p interface{}) {
 	for _, h := range b.handlers[event] {
-		h(p)
+		go h(p)
 	}
 }
 
