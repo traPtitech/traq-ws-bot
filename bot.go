@@ -24,12 +24,12 @@ const (
 
 // Options Bot のオプション
 type Options struct {
-	// AccessToken BOTのアクセストークン（必須）
+	// AccessToken BOTのアクセストークン (required)
 	AccessToken string
-	// Origin traQオリジン
-	// e.g. https://q.trap.jp
+	// Origin traQオリジン (default: wss://q.trap.jp)
+	// e.g. wss://q.trap.jp, ws://localhost:3000
 	Origin string
-	// AutoReconnect 接続が終了した、もしくは失敗した場合に自動で再接続を試みるか
+	// AutoReconnect 接続が終了した、もしくは失敗した場合に自動で再接続を試みるか (default: false)
 	AutoReconnect bool
 }
 
@@ -46,7 +46,7 @@ type Bot struct {
 // NewBot Bot を作成します。
 func NewBot(options *Options) (*Bot, error) {
 	if options.AccessToken == "" {
-		return nil, errors.New("access token is needed")
+		return nil, errors.New("access token is required")
 	}
 	op := *options
 	if op.Origin == "" {
