@@ -11,6 +11,7 @@ WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助�
 package main
 
 import (
+	"encoding/json"
 	"log"
 
 	traqBot "github.com/traPtitech/traq-ws-bot"
@@ -20,9 +21,8 @@ import (
 func main() {
 	// Create a bot instance
 	b, err := traqBot.NewBot(&traqBot.Options{
-		AccessToken:   "access-token", // required
-		Origin:        "wss://q.trap.jp",
-		AutoReconnect: true,
+		AccessToken: "access-token", // required
+		Origin:      "wss://q.trap.jp",
 	})
 	if err != nil {
 		panic(err)
@@ -35,7 +35,7 @@ func main() {
 	b.OnError(func(message string) {
 		log.Println("Command error", message)
 	})
-	b.OnEvent("ANY_EVENT", func(p interface{}) {
+	b.OnEvent("ANY_EVENT", func(rawPayload json.RawMessage) {
 		log.Println("You can receive any events in case it is not implemented")
 	})
 
