@@ -29,8 +29,8 @@ type Options struct {
 	// Origin traQオリジン (default: wss://q.trap.jp)
 	// e.g. wss://q.trap.jp, ws://localhost:3000
 	Origin string
-	// AutoReconnect 接続が終了した、もしくは失敗した場合に自動で再接続を試みるか (default: false)
-	AutoReconnect bool
+	// DisableAutoReconnect 接続が終了した、もしくは失敗した場合の自動再接続を無効化する (default: false)
+	DisableAutoReconnect bool
 }
 
 // Bot WebSocket BOT
@@ -64,7 +64,7 @@ func NewBot(options *Options) (*Bot, error) {
 func (b *Bot) Start() error {
 	for {
 		err := b.connect()
-		if !b.op.AutoReconnect {
+		if b.op.DisableAutoReconnect {
 			return err
 		}
 
