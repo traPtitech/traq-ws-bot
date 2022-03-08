@@ -37,7 +37,7 @@ type Options struct {
 type Bot struct {
 	op            *Options
 	nextRetryWait time.Duration
-	handlers      map[string][]func(interface{})
+	handlers      map[string][]func(json.RawMessage)
 
 	send chan<- *rawMessage
 	c    *websocket.Conn
@@ -55,7 +55,7 @@ func NewBot(options *Options) (*Bot, error) {
 	return &Bot{
 		op:            &op,
 		nextRetryWait: firstRetryWait,
-		handlers:      make(map[string][]func(interface{})),
+		handlers:      make(map[string][]func(json.RawMessage)),
 	}, nil
 }
 
@@ -131,8 +131,8 @@ type rawMessage struct {
 }
 
 type eventMessage struct {
-	Type string      `json:"type"`
-	Body interface{} `json:"body"`
+	Type string          `json:"type"`
+	Body json.RawMessage `json:"body"`
 }
 
 func (b *Bot) readLoop(done chan<- struct{}) {
