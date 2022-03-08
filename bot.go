@@ -98,19 +98,16 @@ func (b *Bot) connect() error {
 	b.c = c
 	go b.readLoop(done)
 	b.writeLoop(done, send)
+	_ = b.c.Close()
 	return nil
-}
-
-func (b *Bot) sendMessage(m *rawMessage) {
-	b.send <- m
 }
 
 func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
 	if len(states) == 0 {
-		b.sendMessage(&rawMessage{
+		b.send <- &rawMessage{
 			t:    websocket.TextMessage,
 			data: []byte(fmt.Sprintf("rtcstate:%s:", channelID)),
-		})
+		}
 		return
 	}
 
@@ -119,10 +116,10 @@ func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
 	for _, state := range states {
 		elems = append(elems, state[0], state[1])
 	}
-	b.sendMessage(&rawMessage{
+	b.send <- &rawMessage{
 		t:    websocket.TextMessage,
 		data: []byte(strings.Join(elems, ":") + ":"),
-	})
+	}
 }
 
 type rawMessage struct {
@@ -147,7 +144,7 @@ func (b *Bot) readLoop(done chan<- struct{}) {
 		case websocket.TextMessage:
 			var m eventMessage
 			if err := json.NewDecoder(bytes.NewReader(p)).Decode(&m); err != nil {
-				b.sendMessage(&rawMessage{t: websocket.CloseMessage, data: websocket.FormatCloseMessage(websocket.CloseUnsupportedData, "unexpected json format")})
+				b.send <- &rawMessage{t: websocket.CloseMessage, data: websocket.FormatCloseMessage(websocket.CloseUnsupportedData, "unexpected json format")}
 				log.Println("[traq-ws-bot] Unexpected json format, closing connection")
 				return
 			}
