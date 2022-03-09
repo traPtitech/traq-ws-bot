@@ -109,6 +109,7 @@ func (b *Bot) handleRawTextMessage(p []byte) {
 	b.handleMultiCast(m.Type, m.Body)
 }
 
+// SendRTCState RTCの状態を送信します。
 func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
 	elems := make([]string, 0, 2+len(states)*2)
 	elems = append(elems, "rtcstate", channelID.String())
