@@ -1,4 +1,4 @@
-package traq_ws_bot
+package traqWSBot
 
 import "time"
 
