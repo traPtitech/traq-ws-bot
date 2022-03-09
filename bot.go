@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -39,8 +38,7 @@ type Bot struct {
 	nextRetryWait time.Duration
 	handlers      map[string][]func(json.RawMessage)
 
-	send chan<- *rawMessage
-	c    *websocket.Conn
+	conn *wsConn
 }
 
 // NewBot Bot を作成します。
@@ -92,79 +90,33 @@ func (b *Bot) connect() error {
 	}
 
 	log.Println("[traq-ws-bot] Connected! Now receiving events...")
-	done := make(chan struct{})
-	send := make(chan *rawMessage)
-	b.send = send
-	b.c = c
-	go b.readLoop(done)
-	b.writeLoop(done, send)
-	_ = b.c.Close()
+	b.conn = newWSConn(c)
+	b.conn.OnTextMessage(b.handleRawTextMessage)
+	b.conn.Start()
 	return nil
 }
 
-func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
-	if len(states) == 0 {
-		b.send <- &rawMessage{
-			t:    websocket.TextMessage,
-			data: []byte(fmt.Sprintf("rtcstate:%s:", channelID)),
-		}
+func (b *Bot) handleRawTextMessage(p []byte) {
+	var m struct {
+		Type string          `json:"type"`
+		Body json.RawMessage `json:"body"`
+	}
+	if err := json.NewDecoder(bytes.NewReader(p)).Decode(&m); err != nil {
+		b.conn.WriteMessage(&rawMessage{t: websocket.CloseMessage, data: websocket.FormatCloseMessage(websocket.CloseUnsupportedData, "unexpected json format")})
+		log.Println("[traq-ws-bot] Unexpected json format, closing connection")
 		return
 	}
+	b.handleMultiCast(m.Type, m.Body)
+}
 
+func (b *Bot) SendRTCState(channelID uuid.UUID, states ...[2]string) {
 	elems := make([]string, 0, 2+len(states)*2)
 	elems = append(elems, "rtcstate", channelID.String())
 	for _, state := range states {
 		elems = append(elems, state[0], state[1])
 	}
-	b.send <- &rawMessage{
+	b.conn.WriteMessage(&rawMessage{
 		t:    websocket.TextMessage,
 		data: []byte(strings.Join(elems, ":") + ":"),
-	}
-}
-
-type rawMessage struct {
-	t    int
-	data []byte
-}
-
-type eventMessage struct {
-	Type string          `json:"type"`
-	Body json.RawMessage `json:"body"`
-}
-
-func (b *Bot) readLoop(done chan<- struct{}) {
-	defer close(done)
-	for {
-		t, p, err := b.c.ReadMessage()
-		if err != nil {
-			return
-		}
-
-		switch t {
-		case websocket.TextMessage:
-			var m eventMessage
-			if err := json.NewDecoder(bytes.NewReader(p)).Decode(&m); err != nil {
-				b.send <- &rawMessage{t: websocket.CloseMessage, data: websocket.FormatCloseMessage(websocket.CloseUnsupportedData, "unexpected json format")}
-				log.Println("[traq-ws-bot] Unexpected json format, closing connection")
-				return
-			}
-			b.handleMultiCast(m.Type, m.Body)
-		case websocket.CloseMessage:
-			return
-		}
-	}
-}
-
-func (b *Bot) writeLoop(done <-chan struct{}, send <-chan *rawMessage) {
-	for {
-		select {
-		case <-done:
-			return
-		case m := <-send:
-			err := b.c.WriteMessage(m.t, m.data)
-			if err != nil {
-				return
-			}
-		}
-	}
+	})
 }
