@@ -14,13 +14,13 @@ import (
 	"encoding/json"
 	"log"
 
-	traqBot "github.com/traPtitech/traq-ws-bot"
+	"github.com/traPtitech/traq-ws-bot"
 	"github.com/traPtitech/traq-ws-bot/payload"
 )
 
 func main() {
 	// Create a bot instance
-	b, err := traqBot.NewBot(&traqBot.Options{
+	b, err := traqWSBot.NewBot(&traqWSBot.Options{
 		AccessToken: "access-token", // required
 		Origin:      "wss://q.trap.jp",
 	})
