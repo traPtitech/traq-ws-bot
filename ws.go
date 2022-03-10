@@ -1,4 +1,4 @@
-package traqWSBot
+package traqwsbot
 
 import (
 	"sync"

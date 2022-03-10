@@ -21,7 +21,7 @@ func getEnvOrPanic(name string) string {
 }
 
 func main() {
-	bot, err := traqWSBot.NewBot(&traqWSBot.Options{
+	bot, err := traqwsbot.NewBot(&traqwsbot.Options{
 		AccessToken: getEnvOrPanic("ACCESS_TOKEN"),
 		Origin:      getEnvOrPanic("TRAQ_ORIGIN"),
 	})

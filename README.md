@@ -20,7 +20,7 @@ import (
 
 func main() {
 	// Create a bot instance
-	b, err := traqWSBot.NewBot(&traqWSBot.Options{
+	b, err := traqwsbot.NewBot(&traqwsbot.Options{
 		AccessToken: "access-token", // required
 		Origin:      "wss://q.trap.jp",
 	})
