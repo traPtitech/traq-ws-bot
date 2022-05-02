@@ -2,7 +2,7 @@
 
 traQのWebSocket BOTを作るためのライブラリです。
 
-WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助します。 APIへの接続は補助しないため、[sapphi-red/go-traq](https://github.com/sapphi-red/go-traq)
+WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助します。 APIへの接続は補助しないため、[traPtitech/go-traq](https://github.com/traPtitech/go-traq)
 などと合わせて使用してください。
 
 ## Sample
