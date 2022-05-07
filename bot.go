@@ -68,6 +68,7 @@ func NewBot(options *Options) (*Bot, error) {
 	}
 	apiConfig.Scheme = apiURL.Scheme
 	apiConfig.Host = apiURL.Host
+	apiConfig.DefaultHeader["Authorization"] = authorizationScheme + " " + op.AccessToken
 	api := traq.NewAPIClient(apiConfig)
 
 	return &Bot{
