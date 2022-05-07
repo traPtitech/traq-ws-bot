@@ -41,7 +41,7 @@ type Options struct {
 	DisableAutoReconnect bool
 }
 
-// Bot WebSocket BOT
+// Bot WebSocket BOT本体を表します。
 type Bot struct {
 	api           *traq.APIClient
 	op            *Options
@@ -78,6 +78,8 @@ func NewBot(options *Options) (*Bot, error) {
 	}, nil
 }
 
+// API APIにアクセスするためのクライアントを返します。
+// 詳細は github.com/traPtitech/go-traq のドキュメントを参照してください。
 func (b *Bot) API() *traq.APIClient {
 	return b.api
 }

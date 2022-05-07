@@ -1,4 +1,4 @@
-package main
+package traqwsbot_test
 
 import (
 	"context"
@@ -11,22 +11,10 @@ import (
 	"github.com/traPtitech/traq-ws-bot/payload"
 )
 
-func init() {
-	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds | log.Lshortfile)
-}
-
-func getEnvOrPanic(name string) string {
-	s := os.Getenv(name)
-	if s == "" {
-		panic(name + " is required")
-	}
-	return s
-}
-
-func main() {
+func Example() {
 	bot, err := traqwsbot.NewBot(&traqwsbot.Options{
-		AccessToken: getEnvOrPanic("ACCESS_TOKEN"),
-		Origin:      getEnvOrPanic("TRAQ_ORIGIN"),
+		AccessToken: os.Getenv("ACCESS_TOKEN"), // Required
+		Origin:      "wss://q.trap.jp",         // Optional (default: wss://q.trap.jp)
 	})
 	if err != nil {
 		panic(err)

@@ -1,54 +1,12 @@
 # traQ WebSocket BOT ライブラリ
 
-traQのWebSocket BOTを作るためのライブラリです。
+[![GitHub release](https://img.shields.io/github/release/traPtitech/traq-ws-bot.svg)](https://github.com/traPtitech/traq-ws-bot/releases/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/traPtitech/traq-ws-bot.svg)](https://pkg.go.dev/github.com/traPtitech/traq-ws-bot)
 
-WebSocketへの接続と、WebSocket内でのデータの送信/受信を補助します。 APIへの接続は補助しないため、[traPtitech/go-traq](https://github.com/traPtitech/go-traq)
-などと合わせて使用してください。
+traQ の WebSocket BOT を作るためのライブラリです。
 
-## Sample
+## 使い方
 
-```go
-package main
-
-import (
-	"encoding/json"
-	"log"
-
-	"github.com/traPtitech/traq-ws-bot"
-	"github.com/traPtitech/traq-ws-bot/payload"
-)
-
-func main() {
-	// Create a bot instance
-	b, err := traqwsbot.NewBot(&traqwsbot.Options{
-		AccessToken: "access-token", // required
-		Origin:      "wss://q.trap.jp",
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	// Set event handlers
-	b.OnMessageCreated(func(p *payload.MessageCreated) {
-		log.Println("Message created", p)
-	})
-	b.OnError(func(message string) {
-		log.Println("Command error", message)
-	})
-	b.OnEvent("ANY_EVENT", func(rawPayload json.RawMessage) {
-		log.Println("You can receive any events in case it is not implemented")
-	})
-
-	go func() {
-		// Join Qall session
-		b.SendRTCState("channel-id", [2]string{"qall.micmuted", "session-id"})
-		// Leave Qall session
-		b.SendRTCState("channel-id")
-	}()
-
-	// Connect to WS and start receiving events
-	if err := b.Start(); err != nil {
-		panic(err)
-	}
-}
-```
+[Go Reference](https://pkg.go.dev/github.com/traPtitech/traq-ws-bot) の Example と、
+[bot-console](https://bot-console.trap.jp)
+を参照してください。
