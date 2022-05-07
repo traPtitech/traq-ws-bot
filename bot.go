@@ -4,13 +4,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
 	"github.com/gofrs/uuid"
 	"github.com/gorilla/websocket"
+	"github.com/traPtitech/go-traq"
 )
 
 const (
@@ -20,6 +23,12 @@ const (
 	firstRetryWait      = 3 * time.Second
 	maxRetryWait        = 10 * time.Minute
 )
+
+func wsOriginToHTTPOrigin(wsURI string) string {
+	wsURI = strings.ReplaceAll(wsURI, "ws://", "http://")
+	wsURI = strings.ReplaceAll(wsURI, "wss://", "https://")
+	return wsURI
+}
 
 // Options Bot のオプション
 type Options struct {
@@ -34,6 +43,7 @@ type Options struct {
 
 // Bot WebSocket BOT
 type Bot struct {
+	api           *traq.APIClient
 	op            *Options
 	nextRetryWait time.Duration
 	handlers      map[string][]func(json.RawMessage)
@@ -50,11 +60,26 @@ func NewBot(options *Options) (*Bot, error) {
 	if op.Origin == "" {
 		op.Origin = defaultOrigin
 	}
+
+	apiConfig := traq.NewConfiguration()
+	apiURL, err := url.Parse(wsOriginToHTTPOrigin(op.Origin))
+	if err != nil {
+		return nil, fmt.Errorf("bad url format: %w", err)
+	}
+	apiConfig.Scheme = apiURL.Scheme
+	apiConfig.Host = apiURL.Host
+	api := traq.NewAPIClient(apiConfig)
+
 	return &Bot{
+		api:           api,
 		op:            &op,
 		nextRetryWait: firstRetryWait,
 		handlers:      make(map[string][]func(json.RawMessage)),
 	}, nil
+}
+
+func (b *Bot) API() *traq.APIClient {
+	return b.api
 }
 
 // Start WebSocketに接続し、イベントの送信と受信を始めます。
