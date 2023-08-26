@@ -85,3 +85,43 @@ type MessageStamp struct {
 	// UpdatedAt 最後にスタンプが押された日時
 	UpdatedAt time.Time `json:"updatedAt"`
 }
+
+// GroupMember グループメンバー情報ペイロード
+type GroupMember struct {
+	// GroupID グループUUID
+	GroupID string `json:"groupId"`
+	// UserID ユーザーUUID
+	UserID string `json:"userId"`
+}
+
+// UserGroupAdmin グループ管理者情報ペイロード
+type UserGroupAdmin GroupMember
+
+// UserGroupMember グループメンバー(のより詳細な)情報ペイロード
+type UserGroupMember struct {
+	GroupMember
+	// Role メンバーの役割
+	Role string `json:"role"`
+}
+
+// UserGroup グループ情報ペイロード
+type UserGroup struct {
+	// ID グループUUID
+	ID string `json:"id"`
+	// Name グループ名
+	Name string `json:"name"`
+	// Description グループの説明
+	Description string `json:"description"`
+	// Type グループの種類
+	Type string `json:"type"`
+	// Icon グループアイコンのファイルUUID
+	Icon string `json:"icon"`
+	// Admins グループ管理者の配列
+	Admins []*UserGroupAdmin `json:"admins"`
+	// Members グループメンバーの配列
+	Members []*UserGroupMember `json:"members"`
+	// CreatedAt グループ作成日時
+	CreatedAt time.Time `json:"createdAt"`
+	// UpdatedAt グループ更新日時
+	UpdatedAt time.Time `json:"updatedAt"`
+}

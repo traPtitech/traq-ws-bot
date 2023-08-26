@@ -137,3 +137,59 @@ type TagRemoved struct {
 	// Tag タグ名
 	Tag string `json:"tag"`
 }
+
+// UserGroupCreated USER_GROUP_CREATEDイベントペイロード
+type UserGroupCreated struct {
+	Base
+	// Group 作成されたグループ
+	Group UserGroup `json:"group"`
+}
+
+// UserGroupUpdated USER_GROUP_UPDATEDイベントペイロード
+type UserGroupUpdated struct {
+	Base
+	// GroupID 更新されたグループUUID
+	GroupID string `json:"groupId"`
+}
+
+// UserGroupDeleted USER_GROUP_DELETEDイベントペイロード
+type UserGroupDeleted struct {
+	Base
+	// GroupID 削除されたグループUUID
+	GroupID string `json:"groupId"`
+}
+
+// UserGroupMemberAdded USER_GROUP_MEMBER_ADDEDイベントペイロード
+type UserGroupMemberAdded struct {
+	Base
+	// GroupMember 追加されたグループメンバー情報
+	GroupMember `json:"groupMember"`
+}
+
+// UserGroupMemberUpdated USER_GROUP_MEMBER_UPDATEDイベントペイロード
+type UserGroupMemberUpdated struct {
+	Base
+	// GroupMember 更新されたグループメンバー情報
+	GroupMember `json:"groupMember"`
+}
+
+// UserGroupMemberRemoved USER_GROUP_MEMBER_REMOVEDイベントペイロード
+type UserGroupMemberRemoved struct {
+	Base
+	// GroupMember 削除されたグループメンバー情報
+	GroupMember `json:"groupMember"`
+}
+
+// UserGroupAdminAdded USER_GROUP_ADMIN_ADDEDイベントペイロード
+type UserGroupAdminAdded struct {
+	Base
+	// GroupMember 追加されたグループ管理者情報
+	GroupMember `json:"groupMember"`
+}
+
+// UserGroupAdminRemoved USER_GROUP_ADMIN_REMOVEDイベントペイロード
+type UserGroupAdminRemoved struct {
+	Base
+	// GroupMember 削除されたグループ管理者情報
+	GroupMember `json:"groupMember"`
+}

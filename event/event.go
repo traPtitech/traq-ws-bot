@@ -36,4 +36,20 @@ const (
 	TagAdded = "TAG_ADDED"
 	// TagRemoved タグ削除イベント
 	TagRemoved = "TAG_REMOVED"
+	// UserGroupCreated グループ作成イベント
+	UserGroupCreated = "USER_GROUP_CREATED"
+	// UserGroupUpdated グループ更新イベント
+	UserGroupUpdated = "USER_GROUP_UPDATED"
+	// UserGroupDeleted グループ削除イベント
+	UserGroupDeleted = "USER_GROUP_DELETED"
+	// UserGroupMemberAdded グループメンバー追加イベント
+	UserGroupMemberAdded = "USER_GROUP_MEMBER_ADDED"
+	// UserGroupMemberUpdated グループメンバー更新イベント
+	UserGroupMemberUpdated = "USER_GROUP_MEMBER_UPDATED"
+	// UserGroupMemberRemoved グループメンバー削除イベント
+	UserGroupMemberRemoved = "USER_GROUP_MEMBER_REMOVED"
+	// UserGroupAdminAdded グループ管理者追加イベント
+	UserGroupAdminAdded = "USER_GROUP_ADMIN_ADDED"
+	// UserGroupAdminRemoved グループ管理者削除イベント
+	UserGroupAdminRemoved = "USER_GROUP_ADMIN_REMOVED"
 )
