@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/traPtitech/go-traq"
 
@@ -13,7 +14,7 @@ import (
 
 func Example() {
 	bot, err := traqwsbot.NewBot(&traqwsbot.Options{
-		AccessToken: os.Getenv("ACCESS_TOKEN"), // Required
+		AccessToken: os.Getenv("q0E6EmnWQensUpvVyerE93yGpkp10LpA9NSy"), // Required
 		Origin:      "wss://q.trap.jp",         // Optional (default: wss://q.trap.jp)
 	})
 	if err != nil {
@@ -35,6 +36,14 @@ func Example() {
 		if err != nil {
 			log.Println(err)
 		}
+	})
+	bot.OnDirectMessageCreated(func(p *payload.DirectMessageCreated) {
+		message := p.Message.Text
+		if !strings.HasPrefix(message, "!DM"){
+			return
+		}
+		
+		log.Println(p.Message.Text)
 	})
 
 	if err := bot.Start(); err != nil {
