@@ -42,7 +42,23 @@ func Example() {
 		if !strings.HasPrefix(message, "!DM"){
 			return
 		}
-		
+		parts := strings.SplitN(message, "#", 2)
+		if len(parts) != 2 {
+			return
+		}
+		userIds := strings.TrimSpace(parts[0][4:])
+		dm := parts[1]
+		recipientList := strings.Split(userIds, ", ")
+		for _, recipient := range recipientList {
+			channel, response, err := bot.API().UserApi.GetUserDMChannel(context.Background(), recipient).Execute()
+			if err != nil || response.StatusCode != 200 {
+				return
+			}
+			_, _, err = bot.API().MessageApi.PostMessage(context.Background(), channel.Id).PostMessageRequest(traq.PostMessageRequest{Content: dm}).Execute()
+			if err != nil{
+				log.Println(err)
+			}
+		}
 		log.Println(p.Message.Text)
 	})
 
