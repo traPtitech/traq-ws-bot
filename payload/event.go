@@ -107,6 +107,13 @@ type UserCreated struct {
 	User User `json:"user"`
 }
 
+// UserActivated USER_ACTIVATEDイベントペイロード
+type UserActivated struct {
+	Base
+	// User 凍結解除されたユーザー
+	User User `json:"user"`
+}
+
 // StampCreated STAMP_CREATEDイベントペイロード
 type StampCreated struct {
 	Base

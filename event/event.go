@@ -30,6 +30,8 @@ const (
 	ChannelTopicChanged = "CHANNEL_TOPIC_CHANGED"
 	// UserCreated ユーザー作成イベント
 	UserCreated = "USER_CREATED"
+	// UserActivated ユーザー凍結解除ベント
+	UserActivated = "USER_ACTIVATED"
 	// StampCreated スタンプ作成イベント
 	StampCreated = "STAMP_CREATED"
 	// TagAdded タグ追加イベント

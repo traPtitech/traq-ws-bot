@@ -187,6 +187,18 @@ func (b *Bot) OnUserCreated(h func(p *payload.UserCreated)) {
 	})
 }
 
+// OnUserActivated USER_ACTIVATED イベントハンドラを登録します。
+func (b *Bot) OnUserActivated(h func(p *payload.UserActivated)) {
+	b.OnEvent(event.UserActivated, func(raw json.RawMessage) {
+		var p payload.UserActivated
+		if err := json.Unmarshal(raw, &p); err != nil {
+			log.Printf("[traq-ws-bot] Unexpected payload on USER_ACTIVATED: %s\n", err)
+			return
+		}
+		h(&p)
+	})
+}
+
 // OnStampCreated STAMP_CREATED イベントハンドラを登録します。
 func (b *Bot) OnStampCreated(h func(p *payload.StampCreated)) {
 	b.OnEvent(event.StampCreated, func(raw json.RawMessage) {
