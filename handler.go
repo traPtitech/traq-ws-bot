@@ -14,9 +14,18 @@ func (b *Bot) handleMultiCast(event string, raw json.RawMessage) {
 	}
 }
 
-// OnEvent 任意のイベントについてハンドラを登録します。
+// OnEvent 指定したイベントに対してハンドラを登録します。
 func (b *Bot) OnEvent(event string, h func(rawPayload json.RawMessage)) {
 	b.handlers[event] = append(b.handlers[event], h)
+}
+
+// OnAnyEvent 任意のイベントに対してハンドラを登録します。
+func (b *Bot) OnAnyEvent(h func(e string, rawPayload json.RawMessage)) {
+	for _, e := range event.AllEvents {
+		b.OnEvent(e, func(rawPayload json.RawMessage) {
+			h(e, rawPayload)
+		})
+	}
 }
 
 // makeDecoder is a utility function to be used with (*Bot).OnEvent.

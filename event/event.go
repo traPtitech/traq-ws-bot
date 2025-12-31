@@ -55,3 +55,32 @@ const (
 	// UserGroupAdminRemoved グループ管理者削除イベント
 	UserGroupAdminRemoved = "USER_GROUP_ADMIN_REMOVED"
 )
+
+var AllEvents = []string{
+	Error,
+	Ping,
+	Joined,
+	Left,
+	MessageCreated,
+	MessageUpdated,
+	MessageDeleted,
+	BotMessageStampsUpdated,
+	DirectMessageCreated,
+	DirectMessageUpdated,
+	DirectMessageDeleted,
+	ChannelCreated,
+	ChannelTopicChanged,
+	UserCreated,
+	UserActivated,
+	StampCreated,
+	TagAdded,
+	TagRemoved,
+	UserGroupCreated,
+	UserGroupUpdated,
+	UserGroupDeleted,
+	UserGroupMemberAdded,
+	UserGroupMemberUpdated,
+	UserGroupMemberRemoved,
+	UserGroupAdminAdded,
+	UserGroupAdminRemoved,
+}
